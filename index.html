@@ -19,12 +19,28 @@
             min-height: 100vh;
             padding: 20px;
             overflow-x: hidden;
+            transition: background 0.5s ease;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transition: all 0.5s ease;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
         }
         
         header {
@@ -178,7 +194,7 @@
         }
         
         .card {
-            height: 220px;
+            height: 240px; /* 增加高度以容纳星星 */
             perspective: 1000px;
             cursor: pointer;
         }
@@ -228,18 +244,21 @@
             justify-content: space-between;
         }
         
-        .card-back.ssr {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80');
+        .card-back.star3 {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                         linear-gradient(135deg, #ff6b6b, #ff8e53, #4facfe, #00f2fe);
             border: 3px solid #ffd700;
         }
         
-        .card-back.sr {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80');
-            border: 3px solid #c0c0c0;
+        .card-back.star2 {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                         linear-gradient(135deg, #ffd700, #ff9800);
+            border: 3px solid #ffd700;
         }
         
-        .card-back.r {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80');
+        .card-back.star1 {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                         linear-gradient(135deg, #4facfe, #00f2fe);
             border: 3px solid #4facfe;
         }
         
@@ -257,19 +276,30 @@
             margin-top: 10px;
         }
         
-        .rarity-ssr {
+        .rarity-star3 {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53, #4facfe, #00f2fe);
+            color: white;
+        }
+        
+        .rarity-star2 {
             background: linear-gradient(45deg, #ffd700, #ff9800);
             color: #8b0000;
         }
         
-        .rarity-sr {
-            background: linear-gradient(45deg, #c0c0c0, #a9a9a9);
-            color: #333;
+        .rarity-star1 {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
         }
         
-        .rarity-r {
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-            color: #fff;
+        .stars-container {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .star {
+            color: #ffd700;
+            font-size: 1.2rem;
         }
         
         .result-summary {
@@ -309,16 +339,19 @@
             margin: 10px 0;
         }
         
-        .ssr-color {
+        .star3-color {
+            color: #ff6b6b;
+            text-shadow: 0 0 5px rgba(255, 107, 107, 0.8);
+        }
+        
+        .star2-color {
             color: #ffd700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
         }
         
-        .sr-color {
-            color: #c0c0c0;
-        }
-        
-        .r-color {
+        .star1-color {
             color: #4facfe;
+            text-shadow: 0 0 5px rgba(79, 172, 254, 0.8);
         }
         
         .history {
@@ -452,9 +485,310 @@
             color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
         }
+        
+        /* 背景设置面板 */
+        .settings-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(233, 69, 96, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 0 15px rgba(233, 69, 96, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .settings-btn:hover {
+            transform: rotate(30deg);
+            background: rgba(233, 69, 96, 1);
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.9);
+        }
+        
+        .settings-btn i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .settings-panel {
+            position: fixed;
+            top: 80px;
+            right: -350px;
+            width: 330px;
+            background: rgba(25, 25, 45, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 1000;
+            transition: right 0.4s ease;
+            border: 2px solid #e94560;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+        
+        .settings-panel.active {
+            right: 20px;
+        }
+        
+        .settings-panel h3 {
+            color: #e94560;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.6rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+        
+        .settings-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .settings-section h4 {
+            margin-bottom: 15px;
+            color: #4facfe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .settings-section h4 i {
+            font-size: 1.2rem;
+        }
+        
+        .preset-bg-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .preset-bg {
+            height: 60px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preset-bg:hover {
+            transform: scale(1.05);
+        }
+        
+        .preset-bg.active {
+            border-color: #e94560;
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.7);
+        }
+        
+        .preset-bg::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+        }
+        
+        .preset-bg.active::after {
+            display: none;
+        }
+        
+        .bg-option {
+            margin-bottom: 15px;
+        }
+        
+        .bg-option label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .bg-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+        }
+        
+        .file-upload input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-upload-btn {
+            display: block;
+            padding: 10px;
+            background: rgba(79, 172, 254, 0.3);
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px dashed #4facfe;
+        }
+        
+        .file-upload-btn:hover {
+            background: rgba(79, 172, 254, 0.5);
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .slider-container input[type="range"] {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #e94560;
+            cursor: pointer;
+        }
+        
+        .slider-value {
+            width: 40px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .reset-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: rgba(233, 69, 96, 0.3);
+            border: 1px solid #e94560;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .reset-btn:hover {
+            background: rgba(233, 69, 96, 0.5);
+        }
+        
+        .bg-preview {
+            width: 100%;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        
+        .settings-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .settings-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
     </style>
 </head>
 <body>
+    <!-- 背景设置按钮 -->
+    <div class="settings-btn" id="settingsBtn">
+        <i class="fas fa-cog"></i>
+    </div>
+    
+    <!-- 背景设置面板 -->
+    <div class="settings-panel" id="settingsPanel">
+        <h3><i class="fas fa-image"></i> 背景设置</h3>
+        
+        <div class="settings-section">
+            <h4><i class="fas fa-palette"></i> 预设背景</h4>
+            <div class="preset-bg-grid">
+                <div class="preset-bg active" style="background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);" data-bg="linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)"></div>
+                <div class="preset-bg" style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);" data-bg="linear-gradient(135deg, #0f2027, #203a43, #2c5364)"></div>
+                <div class="preset-bg" style="background: linear-gradient(135deg, #5433ff, #20bdff, #a5fecb);" data-bg="linear-gradient(135deg, #5433ff, #20bdff, #a5fecb)"></div>
+                <div class="preset-bg" style="background: linear-gradient(135deg, #ff416c, #ff4b2b);" data-bg="linear-gradient(135deg, #ff416c, #ff4b2b)"></div>
+                <div class="preset-bg" style="background: linear-gradient(135deg, #141E30, #243B55);" data-bg="linear-gradient(135deg, #141E30, #243B55)"></div>
+                <div class="preset-bg" style="background: linear-gradient(135deg, #834d9b, #d04ed6);" data-bg="linear-gradient(135deg, #834d9b, #d04ed6)"></div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h4><i class="fas fa-upload"></i> 自定义背景</h4>
+            <div class="bg-option">
+                <label>上传图片</label>
+                <div class="bg-controls">
+                    <div class="file-upload">
+                        <input type="file" id="bgUpload" accept="image/*">
+                        <div class="file-upload-btn">
+                            <i class="fas fa-cloud-upload-alt"></i> 选择图片
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-preview" id="bgPreview">
+                <div class="empty-state" style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                    <i class="fas fa-image"></i>
+                    <p>未选择图片</p>
+                </div>
+            </div>
+            
+            <div class="bg-option">
+                <label>背景模糊度 <span id="blurValue">0</span>px</label>
+                <div class="slider-container">
+                    <input type="range" id="blurSlider" min="0" max="20" value="0">
+                </div>
+            </div>
+            
+            <div class="bg-option">
+                <label>背景亮度 <span id="brightnessValue">100</span>%</label>
+                <div class="slider-container">
+                    <input type="range" id="brightnessSlider" min="20" max="200" value="100">
+                </div>
+            </div>
+        </div>
+        
+        <button class="reset-btn" id="resetBg">
+            <i class="fas fa-undo"></i> 重置为默认背景
+        </button>
+    </div>
+    
+    <div class="settings-overlay" id="settingsOverlay"></div>
+    
     <div class="drawing" id="drawingOverlay">
         <div class="drawing-content">
             <i class="fas fa-spinner fa-spin"></i>
@@ -465,7 +799,7 @@
     <div class="container">
         <header>
             <h1>动漫社抽卡系统</h1>
-            <p class="subtitle">快来试试你的手气！抽取稀有角色卡牌，收集SSR限定角色！</p>
+            <p class="subtitle">快来试试你的手气！抽取稀有角色卡牌，收集3星限定角色！</p>
         </header>
         
         <div class="main-content">
@@ -483,16 +817,16 @@
                 <div class="stats">
                     <h3>卡牌概率</h3>
                     <div class="stat-item">
-                        <span>SSR (彩卡)</span>
-                        <span>1%</span>
+                        <span>3星 (彩卡)</span>
+                        <span>2%</span>
                     </div>
                     <div class="stat-item">
-                        <span>SR (金卡)</span>
-                        <span>10%</span>
+                        <span>2星 (金卡)</span>
+                        <span>18%</span>
                     </div>
                     <div class="stat-item">
-                        <span>R (蓝卡)</span>
-                        <span>89%</span>
+                        <span>1星 (蓝卡)</span>
+                        <span>80%</span>
                     </div>
                 </div>
                 
@@ -503,12 +837,12 @@
                         <span id="totalDraws">0</span>
                     </div>
                     <div class="stat-item">
-                        <span>获得SSR:</span>
-                        <span id="totalSSR">0</span>
+                        <span>获得3星:</span>
+                        <span id="totalStar3">0</span>
                     </div>
                     <div class="stat-item">
-                        <span>获得SR:</span>
-                        <span id="totalSR">0</span>
+                        <span>获得2星:</span>
+                        <span id="totalStar2">0</span>
                     </div>
                 </div>
             </div>
@@ -527,18 +861,18 @@
                     <h3>本次抽卡结果</h3>
                     <div class="summary-content">
                         <div class="summary-item">
-                            <div>SSR (彩卡)</div>
-                            <div class="summary-value ssr-color" id="ssrCount">0</div>
+                            <div>3星 (彩卡)</div>
+                            <div class="summary-value star3-color" id="star3Count">0</div>
                             <div>张</div>
                         </div>
                         <div class="summary-item">
-                            <div>SR (金卡)</div>
-                            <div class="summary-value sr-color" id="srCount">0</div>
+                            <div>2星 (金卡)</div>
+                            <div class="summary-value star2-color" id="star2Count">0</div>
                             <div>张</div>
                         </div>
                         <div class="summary-item">
-                            <div>R (蓝卡)</div>
-                            <div class="summary-value r-color" id="rCount">0</div>
+                            <div>1星 (蓝卡)</div>
+                            <div class="summary-value star1-color" id="star1Count">0</div>
                             <div>张</div>
                         </div>
                     </div>
@@ -554,14 +888,14 @@
         </div>
         
         <footer>
-            <p>© 2023 动漫社官网 | 梦幻抽卡系统 | 概率：SSR 1% | SR 10% | R 89%</p>
+            <p>© 2023 动漫社官网 | 梦幻抽卡系统 | 概率：3星 2% | 2星 18% | 1星 80%</p>
             <p>本页面仅为娱乐，虚拟物品无实际价值</p>
         </footer>
     </div>
     
     <script>
         // 卡牌数据
-        const ssrCards = [
+        const star3Cards = [
             "宇宙公主·星光", 
             "暗夜领主·影刃", 
             "圣光天使·艾莉娅", 
@@ -569,7 +903,7 @@
             "时间旅者·克罗诺斯"
         ];
         
-        const srCards = [
+        const star2Cards = [
             "火焰剑士·莱昂", 
             "冰霜法师·艾莎", 
             "森林游侠·罗宾", 
@@ -580,7 +914,7 @@
             "光明祭司·露娜"
         ];
         
-        const rCards = [
+        const star1Cards = [
             "见习战士", 
             "新手法师", 
             "弓箭手学徒", 
@@ -595,21 +929,49 @@
         
         // 状态管理
         let totalDraws = 0;
-        let totalSSR = 0;
-        let totalSR = 0;
+        let totalStar3 = 0;
+        let totalStar2 = 0;
         let currentDraw = [];
         let history = [];
         
         // DOM元素
         const cardContainer = document.getElementById('cardContainer');
-        const ssrCountElement = document.getElementById('ssrCount');
-        const srCountElement = document.getElementById('srCount');
-        const rCountElement = document.getElementById('rCount');
+        const star3CountElement = document.getElementById('star3Count');
+        const star2CountElement = document.getElementById('star2Count');
+        const star1CountElement = document.getElementById('star1Count');
         const totalDrawsElement = document.getElementById('totalDraws');
-        const totalSSRElement = document.getElementById('totalSSR');
-        const totalSRElement = document.getElementById('totalSR');
+        const totalStar3Element = document.getElementById('totalStar3');
+        const totalStar2Element = document.getElementById('totalStar2');
         const historyContainer = document.getElementById('historyContainer');
         const drawingOverlay = document.getElementById('drawingOverlay');
+        
+        // 背景设置相关元素
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const settingsOverlay = document.getElementById('settingsOverlay');
+        const bgUpload = document.getElementById('bgUpload');
+        const bgPreview = document.getElementById('bgPreview');
+        const blurSlider = document.getElementById('blurSlider');
+        const brightnessSlider = document.getElementById('brightnessSlider');
+        const blurValue = document.getElementById('blurValue');
+        const brightnessValue = document.getElementById('brightnessValue');
+        const resetBtn = document.getElementById('resetBg');
+        const presetBgs = document.querySelectorAll('.preset-bg');
+        
+        // 背景设置相关变量
+        let currentBg = 'linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)';
+        let customBg = null;
+        let blurAmount = 0;
+        let brightnessAmount = 100;
+        
+        // 生成星星HTML
+        function generateStars(count) {
+            let starsHTML = '';
+            for (let i = 0; i < count; i++) {
+                starsHTML += '<i class="fas fa-star star"></i>';
+            }
+            return starsHTML;
+        }
         
         // 抽卡函数
         function drawCards(count) {
@@ -629,28 +991,28 @@
                     const rand = Math.random() * 100;
                     let card;
                     
-                    if (rand < 2) { // SSR 1%
-                        const randomCard = ssrCards[Math.floor(Math.random() * ssrCards.length)];
+                    if (rand < 2) { // 3星 2%
+                        const randomCard = star3Cards[Math.floor(Math.random() * star3Cards.length)];
                         card = {
                             name: randomCard,
-                            rarity: 'ssr',
-                            type: 'SSR'
+                            stars: 3,
+                            type: '3星'
                         };
-                        totalSSR++;
-                    } else if (rand < 15) { // SR 10%
-                        const randomCard = srCards[Math.floor(Math.random() * srCards.length)];
+                        totalStar3++;
+                    } else if (rand < 20) { // 2星 18%
+                        const randomCard = star2Cards[Math.floor(Math.random() * star2Cards.length)];
                         card = {
                             name: randomCard,
-                            rarity: 'sr',
-                            type: 'SR'
+                            stars: 2,
+                            type: '2星'
                         };
-                        totalSR++;
-                    } else { // R 89%
-                        const randomCard = rCards[Math.floor(Math.random() * rCards.length)];
+                        totalStar2++;
+                    } else { // 1星 80%
+                        const randomCard = star1Cards[Math.floor(Math.random() * star1Cards.length)];
                         card = {
                             name: randomCard,
-                            rarity: 'r',
-                            type: 'R'
+                            stars: 1,
+                            type: '1星'
                         };
                     }
                     
@@ -669,22 +1031,22 @@
         function updateUI() {
             // 更新统计信息
             totalDrawsElement.textContent = totalDraws;
-            totalSSRElement.textContent = totalSSR;
-            totalSRElement.textContent = totalSR;
+            totalStar3Element.textContent = totalStar3;
+            totalStar2Element.textContent = totalStar2;
             
             // 清空卡片容器
             cardContainer.innerHTML = '';
             
-            // 计算本次抽卡各稀有度数量
-            let ssrCount = 0;
-            let srCount = 0;
-            let rCount = 0;
+            // 计算本次抽卡各星级数量
+            let star3Count = 0;
+            let star2Count = 0;
+            let star1Count = 0;
             
             // 创建卡片元素
             currentDraw.forEach((card, index) => {
-                if (card.rarity === 'ssr') ssrCount++;
-                else if (card.rarity === 'sr') srCount++;
-                else rCount++;
+                if (card.stars === 3) star3Count++;
+                else if (card.stars === 2) star2Count++;
+                else star1Count++;
                 
                 const cardElement = document.createElement('div');
                 cardElement.className = 'card';
@@ -696,9 +1058,12 @@
                             </div>
                             <p>点击翻转</p>
                         </div>
-                        <div class="card-back ${card.rarity}">
+                        <div class="card-back star${card.stars}">
                             <div>${card.name}</div>
-                            <div class="rarity-badge rarity-${card.rarity}">${card.type}</div>
+                            <div class="stars-container">
+                                ${generateStars(card.stars)}
+                            </div>
+                            <div class="rarity-badge rarity-star${card.stars}">${card.type}</div>
                         </div>
                     </div>
                 `;
@@ -719,9 +1084,9 @@
             });
             
             // 更新本次抽卡统计
-            ssrCountElement.textContent = ssrCount;
-            srCountElement.textContent = srCount;
-            rCountElement.textContent = rCount;
+            star3CountElement.textContent = star3Count;
+            star2CountElement.textContent = star2Count;
+            star1CountElement.textContent = star1Count;
         }
         
         // 更新历史记录
@@ -731,15 +1096,15 @@
             historyItem.className = 'history-item';
             
             const date = new Date().toLocaleTimeString();
-            let ssrCount = currentDraw.filter(card => card.rarity === 'ssr').length;
-            let srCount = currentDraw.filter(card => card.rarity === 'sr').length;
-            let rCount = currentDraw.filter(card => card.rarity === 'r').length;
+            let star3Count = currentDraw.filter(card => card.stars === 3).length;
+            let star2Count = currentDraw.filter(card => card.stars === 2).length;
+            let star1Count = currentDraw.filter(card => card.stars === 1).length;
             
             historyItem.innerHTML = `
                 <strong>${date}</strong> - ${count}连抽: 
-                <span class="ssr-color">${ssrCount} SSR</span>, 
-                <span class="sr-color">${srCount} SR</span>, 
-                <span class="r-color">${rCount} R</span>
+                <span class="star3-color">${star3Count} 3星</span>, 
+                <span class="star2-color">${star2Count} 2星</span>, 
+                <span class="star1-color">${star1Count} 1星</span>
             `;
             
             // 添加到历史容器
@@ -755,12 +1120,189 @@
             }
         }
         
-        // 事件监听
-        document.getElementById('draw5').addEventListener('click', () => drawCards(5));
-        document.getElementById('draw10').addEventListener('click', () => drawCards(10));
+        // 应用背景设置
+        function applyBackground() {
+            const bgElement = document.querySelector('body::before');
+            let bgStyle = '';
+            
+            if (customBg) {
+                bgStyle = `url(${customBg}) center/cover`;
+            } else {
+                bgStyle = currentBg;
+            }
+            
+            document.body.style.background = bgStyle;
+            
+            // 应用滤镜效果
+            document.body.style.setProperty('--blur', `${blurAmount}px`);
+            document.body.style.setProperty('--brightness', `${brightnessAmount}%`);
+            
+            // 保存到本地存储
+            saveBackgroundSettings();
+        }
+        
+        // 保存背景设置
+        function saveBackgroundSettings() {
+            const settings = {
+                customBg,
+                currentBg,
+                blurAmount,
+                brightnessAmount
+            };
+            localStorage.setItem('backgroundSettings', JSON.stringify(settings));
+        }
+        
+        // 加载背景设置
+        function loadBackgroundSettings() {
+            const savedSettings = localStorage.getItem('backgroundSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                customBg = settings.customBg;
+                currentBg = settings.currentBg;
+                blurAmount = settings.blurAmount;
+                brightnessAmount = settings.brightnessAmount;
+                
+                // 更新UI控件
+                blurSlider.value = blurAmount;
+                brightnessSlider.value = brightnessAmount;
+                blurValue.textContent = blurAmount;
+                brightnessValue.textContent = brightnessAmount;
+                
+                // 更新预设选择
+                document.querySelectorAll('.preset-bg').forEach(bg => {
+                    bg.classList.remove('active');
+                    if (bg.dataset.bg === currentBg) {
+                        bg.classList.add('active');
+                    }
+                });
+                
+                // 更新预览
+                if (customBg) {
+                    bgPreview.style.background = `url(${customBg}) center/cover`;
+                    bgPreview.innerHTML = '';
+                } else {
+                    bgPreview.style.background = currentBg;
+                    bgPreview.innerHTML = '';
+                }
+                
+                // 应用设置
+                applyBackground();
+            }
+        }
         
         // 初始化
-        updateUI();
+        document.addEventListener('DOMContentLoaded', () => {
+            // 加载背景设置
+            loadBackgroundSettings();
+            
+            // 事件监听
+            document.getElementById('draw5').addEventListener('click', () => drawCards(5));
+            document.getElementById('draw10').addEventListener('click', () => drawCards(10));
+            
+            // 设置面板切换
+            settingsBtn.addEventListener('click', () => {
+                settingsPanel.classList.toggle('active');
+                settingsOverlay.classList.toggle('active');
+            });
+            
+            settingsOverlay.addEventListener('click', () => {
+                settingsPanel.classList.remove('active');
+                settingsOverlay.classList.remove('active');
+            });
+            
+            // 预设背景选择
+            presetBgs.forEach(bg => {
+                bg.addEventListener('click', () => {
+                    // 移除所有active类
+                    presetBgs.forEach(b => b.classList.remove('active'));
+                    // 添加active类到当前项
+                    bg.classList.add('active');
+                    
+                    // 更新当前背景
+                    currentBg = bg.dataset.bg;
+                    customBg = null;
+                    
+                    // 清空预览
+                    bgPreview.style.background = currentBg;
+                    bgPreview.innerHTML = '';
+                    
+                    // 应用背景
+                    applyBackground();
+                });
+            });
+            
+            // 上传背景图片
+            bgUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        customBg = event.target.result;
+                        bgPreview.style.background = `url(${customBg}) center/cover`;
+                        bgPreview.innerHTML = '';
+                        
+                        // 移除预设选择
+                        presetBgs.forEach(bg => bg.classList.remove('active'));
+                        
+                        // 应用背景
+                        applyBackground();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // 模糊度调节
+            blurSlider.addEventListener('input', function() {
+                blurAmount = this.value;
+                blurValue.textContent = blurAmount;
+                applyBackground();
+            });
+            
+            // 亮度调节
+            brightnessSlider.addEventListener('input', function() {
+                brightnessAmount = this.value;
+                brightnessValue.textContent = brightnessAmount;
+                applyBackground();
+            });
+            
+            // 重置背景
+            resetBtn.addEventListener('click', function() {
+                // 重置为默认背景
+                currentBg = 'linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)';
+                customBg = null;
+                blurAmount = 0;
+                brightnessAmount = 100;
+                
+                // 更新UI
+                blurSlider.value = blurAmount;
+                brightnessSlider.value = brightnessAmount;
+                blurValue.textContent = blurAmount;
+                brightnessValue.textContent = brightnessAmount;
+                
+                // 更新预设选择
+                presetBgs.forEach(bg => {
+                    bg.classList.remove('active');
+                    if (bg.dataset.bg === currentBg) {
+                        bg.classList.add('active');
+                    }
+                });
+                
+                // 清空预览
+                bgPreview.style.background = '';
+                bgPreview.innerHTML = `
+                    <div class="empty-state" style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                        <i class="fas fa-image"></i>
+                        <p>未选择图片</p>
+                    </div>
+                `;
+                
+                // 应用背景
+                applyBackground();
+            });
+            
+            // 初始化UI
+            updateUI();
+        });
     </script>
 </body>
 </html>

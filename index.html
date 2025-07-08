@@ -629,7 +629,7 @@
                     const rand = Math.random() * 100;
                     let card;
                     
-                    if (rand < 1) { // SSR 1%
+                    if (rand < 2) { // SSR 1%
                         const randomCard = ssrCards[Math.floor(Math.random() * ssrCards.length)];
                         card = {
                             name: randomCard,
@@ -637,7 +637,7 @@
                             type: 'SSR'
                         };
                         totalSSR++;
-                    } else if (rand < 11) { // SR 10%
+                    } else if (rand < 15) { // SR 10%
                         const randomCard = srCards[Math.floor(Math.random() * srCards.length)];
                         card = {
                             name: randomCard,

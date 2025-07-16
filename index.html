@@ -999,7 +999,7 @@
                             type: '3星'
                         };
                         totalStar3++;
-                    } else if (rand < 15) { // 2星 18%
+                    } else if (rand < 9) { // 2星 13%
                         const randomCard = star2Cards[Math.floor(Math.random() * star2Cards.length)];
                         card = {
                             name: randomCard,
@@ -1007,7 +1007,7 @@
                             type: '2星'
                         };
                         totalStar2++;
-                    } else { // 1星 80%
+                    } else { // 1星 85%
                         const randomCard = star1Cards[Math.floor(Math.random() * star1Cards.length)];
                         card = {
                             name: randomCard,

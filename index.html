@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✦ 长汀一中动漫节抽奖</title>
     <style>
+        /* 样式保持不变，省略，请复制之前的完整样式 */
         :root {
             --bg-main: #f5f2fa;
             --bg-card: rgba(255, 255, 255, 0.75);
@@ -961,7 +962,7 @@
             centeredIndex = -1;
         }
 
-        // ===== 飞出 =====
+        // ===== 飞出后直接让下一张居中 =====
         function flyOutCard(index) {
             if (currentState !== State.REVEALED) return;
             const card = cards[index];
@@ -997,61 +998,12 @@
                 }
 
                 if (topCardIndex >= 0 && !cards[topCardIndex].flown) {
-                    riseNextCard(topCardIndex);
+                    // ✅ 先切换到 STACKED，然后调用 moveToCenter
+                    currentState = State.STACKED;
+                    moveToCenter(topCardIndex);
                 }
                 flyTimer = null;
             }, 650);
-        }
-
-        // ============================================================
-        //  修复：下一张卡片升起后直接进入 CENTERED 状态
-        // ============================================================
-        function riseNextCard(index) {
-            currentState = State.RISING;
-            const card = cards[index];
-            const stage = cardStage;
-            const targetCX = stage.clientWidth / 2 - card.element.offsetWidth / 2;
-            const targetCY = stage.clientHeight / 2 - card.element.offsetHeight / 2;
-
-            const fromX = card._stackDx || 0;
-            const fromY = card._stackDy || 0;
-            const fromR = card._stackRot || 0;
-
-            card.element.style.setProperty('--from-x', fromX + 'px');
-            card.element.style.setProperty('--from-y', fromY + 'px');
-            card.element.style.setProperty('--from-r', fromR + 'deg');
-            card.element.style.setProperty('--from-z', card._stackIndex || index);
-            card.element.style.setProperty('--to-z', 100);
-            card.element.style.animation = '';
-            card.element.classList.add('rising');
-            card.element.style.left = targetCX + 'px';
-            card.element.style.top = targetCY + 'px';
-            card.element.style.transform = 'rotate(0deg)';
-            card.element.style.zIndex = 100;
-
-            card._stackDx = 0;
-            card._stackDy = 0;
-            card._stackRot = 0;
-            card._stackIndex = 100;
-
-            card.element.addEventListener('animationend', function h() {
-                card.element.removeEventListener('animationend', h);
-                card.element.classList.remove('rising');
-                if (currentState === State.RISING) {
-                    // ✅ 修复：卡片已在中央，直接进入 CENTERED 状态
-                    currentState = State.CENTERED;
-                    centeredIndex = index;
-                    // 高亮并添加脉冲提示
-                    cards.forEach(c => {
-                        c.element.style.boxShadow = '';
-                        c.element.style.filter = '';
-                        c.element.style.animation = '';
-                    });
-                    card.element.style.boxShadow = '0 0 30px rgba(130, 177, 255, 0.3)';
-                    card.element.style.animation = 'hintPulse 1.8s infinite';
-                    skipBtn.classList.add('visible');
-                }
-            }, { once: true });
         }
 
         function finishAllRevealedShowResult() {
@@ -1137,7 +1089,7 @@
             }
         });
 
-        console.log('✦ 长汀一中动漫节 · 五连抽点击修复版已加载');
+        console.log('✦ 长汀一中动漫节 · 五连抽流畅版已加载');
     })();
 </script>
 </body>

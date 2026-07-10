@@ -492,7 +492,7 @@
 <div class="main-screen" id="mainScreen">
     <div class="logo">✦ 长汀一中动漫节</div>
     <div class="sub">✦ 运命の抽奖 ✦</div>
-    <div class="desc">点击卡片逐张揭示 </div>
+    <div class="desc">点击卡片逐张揭示</div>
     <div class="btn-row">
         <button class="btn-draw single" id="btnSingle">
             单 抽
@@ -568,7 +568,7 @@
             const r = Math.random();
             if (r < 0.40) return 1;
             if (r < 0.70) return 2;
-            if (r < 0.93) return 3;
+            if (r < 0.90) return 3;
             if (r < 0.98) return 4;
             return 5;
         }
@@ -811,7 +811,7 @@
             rollingAnimId = requestAnimationFrame(step);
         }
 
-        // ===== 堆叠到右下角（负边距，更靠右） =====
+        // ===== 堆叠到右下角 =====
         function transitionToStack() {
             currentState = State.STACKING;
             const stage = cardStage;
@@ -856,12 +856,10 @@
             const cardW = cards[0].element.offsetWidth;
             const cardH = cards[0].element.offsetHeight;
 
-            // ============================================================
-            //  边距设为负值，让卡片向右超出边缘
-            // ============================================================
-            const marginRight = -200;  // 负值向右偏移
+            // 边距设为负值，让卡片向右超出边缘
+            const marginRight = -200;
             const marginBottom = 0;
-            const targetCX = stageW - cardW - marginRight; // 相当于 stageW - cardW + 12
+            const targetCX = stageW - cardW - marginRight;
             const targetCY = stageH - cardH - marginBottom;
 
             const offsets = totalCards === 1 ? [{ dx: 0, dy: 0, rot: 0 }] :
@@ -1005,6 +1003,9 @@
             }, 650);
         }
 
+        // ============================================================
+        //  修复：下一张卡片升起后直接进入 CENTERED 状态
+        // ============================================================
         function riseNextCard(index) {
             currentState = State.RISING;
             const card = cards[index];
@@ -1037,9 +1038,17 @@
                 card.element.removeEventListener('animationend', h);
                 card.element.classList.remove('rising');
                 if (currentState === State.RISING) {
-                    currentState = State.STACKED;
-                    highlightTopCard();
-                    addClickHint(card.element);
+                    // ✅ 修复：卡片已在中央，直接进入 CENTERED 状态
+                    currentState = State.CENTERED;
+                    centeredIndex = index;
+                    // 高亮并添加脉冲提示
+                    cards.forEach(c => {
+                        c.element.style.boxShadow = '';
+                        c.element.style.filter = '';
+                        c.element.style.animation = '';
+                    });
+                    card.element.style.boxShadow = '0 0 30px rgba(130, 177, 255, 0.3)';
+                    card.element.style.animation = 'hintPulse 1.8s infinite';
                     skipBtn.classList.add('visible');
                 }
             }, { once: true });
@@ -1128,7 +1137,7 @@
             }
         });
 
-        console.log('✦ 星灵召唤 · 堆叠右下角 (负边距) 已加载');
+        console.log('✦ 长汀一中动漫节 · 五连抽点击修复版已加载');
     })();
 </script>
 </body>

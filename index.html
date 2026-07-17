@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✦ 长汀一中动漫节抽奖</title>
     <style>
-        /* 样式保持不变，省略，请复制之前的完整样式 */
+        /* ========== 样式 ========== */
         :root {
             --bg-main: #f5f2fa;
             --bg-card: rgba(255, 255, 255, 0.75);
@@ -46,7 +46,7 @@
             position: fixed;
             inset: 0;
             background: radial-gradient(circle at 20% 30%, rgba(179, 136, 255, 0.06), transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(130, 177, 255, 0.05), transparent 50%);
+                radial-gradient(circle at 80% 70%, rgba(130, 177, 255, 0.05), transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -161,10 +161,15 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
+            cursor: default;
         }
         .overlay.active {
             opacity: 1;
             pointer-events: auto;
+        }
+        /* 结果展示时点击任意位置关闭 —— 光标提示 */
+        .overlay.click-to-close {
+            cursor: pointer;
         }
 
         .bg-particles {
@@ -182,8 +187,14 @@
             animation: floatPart 6s infinite alternate ease-in-out;
         }
         @keyframes floatPart {
-            0% { transform: translate(0, 0) scale(0.8); opacity: 0.06; }
-            100% { transform: translate(25px, -35px) scale(1.3); opacity: 0.2; }
+            0% {
+                transform: translate(0, 0) scale(0.8);
+                opacity: 0.06;
+            }
+            100% {
+                transform: translate(25px, -35px) scale(1.3);
+                opacity: 0.2;
+            }
         }
 
         .skip-btn {
@@ -250,15 +261,25 @@
             pointer-events: none;
         }
         @keyframes flyLeft {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
-            100% { transform: translate(-120vw, -100px) rotate(-16deg) scale(0.3); opacity: 0; }
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-120vw, -100px) rotate(-16deg) scale(0.3);
+                opacity: 0;
+            }
         }
         .card.rising {
             animation: riseUp 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         @keyframes riseUp {
-            0% { transform: translate(var(--from-x), var(--from-y)) rotate(var(--from-r)); }
-            100% { transform: translate(0, 0) rotate(0deg); }
+            0% {
+                transform: translate(var(--from-x), var(--from-y)) rotate(var(--from-r));
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
         }
 
         .card-inner {
@@ -319,8 +340,12 @@
             animation: spinRing 12s linear infinite;
         }
         @keyframes spinRing {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
         .card-back .label-back {
             position: absolute;
@@ -342,23 +367,34 @@
             padding: 14px 8px;
             box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.01);
         }
-        .card-front.star-1 { border-color: rgba(180, 180, 200, 0.2); }
-        .card-front.star-2 { border-color: rgba(100, 200, 160, 0.25); }
-        .card-front.star-3 { border-color: rgba(130, 177, 255, 0.35); }
-        .card-front.star-4 { border-color: rgba(179, 136, 255, 0.4); }
+        .card-front.star-1 {
+            border-color: rgba(180, 180, 200, 0.2);
+        }
+        .card-front.star-2 {
+            border-color: rgba(100, 200, 160, 0.25);
+        }
+        .card-front.star-3 {
+            border-color: rgba(130, 177, 255, 0.35);
+        }
+        .card-front.star-4 {
+            border-color: rgba(179, 136, 255, 0.4);
+        }
         .card-front.star-5 {
             border-color: rgba(255, 128, 171, 0.5);
             box-shadow: 0 0 40px rgba(255, 128, 171, 0.08);
             animation: pinkShimmer 2.5s infinite;
         }
         @keyframes pinkShimmer {
-            0%, 100% { box-shadow: 0 0 40px rgba(255, 128, 171, 0.08); }
-            50% { box-shadow: 0 0 60px rgba(255, 128, 171, 0.2); }
+            0%,
+            100% {
+                box-shadow: 0 0 40px rgba(255, 128, 171, 0.08);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(255, 128, 171, 0.2);
+            }
         }
 
-        /* ============================================================
-           自定义 CSS 星星
-           ============================================================ */
+        /* ===== 自定义星星 ===== */
         .star-custom {
             display: inline-block;
             width: var(--star-size);
@@ -386,8 +422,13 @@
             animation: starPulse4 2.5s infinite;
         }
         @keyframes starPulse4 {
-            0%, 100% { filter: drop-shadow(0 1px 4px rgba(142, 36, 170, 0.25)); }
-            50% { filter: drop-shadow(0 0 12px rgba(142, 36, 170, 0.4)); }
+            0%,
+            100% {
+                filter: drop-shadow(0 1px 4px rgba(142, 36, 170, 0.25));
+            }
+            50% {
+                filter: drop-shadow(0 0 12px rgba(142, 36, 170, 0.4));
+            }
         }
         .star-custom.s5 {
             background: linear-gradient(145deg, #ffd54f, #f9a825);
@@ -395,7 +436,8 @@
             animation: starGlow5 1.8s infinite;
         }
         @keyframes starGlow5 {
-            0%, 100% {
+            0%,
+            100% {
                 filter: drop-shadow(0 0 6px rgba(255, 213, 79, 0.4)) drop-shadow(0 0 12px rgba(255, 213, 79, 0.1));
                 transform: scale(1);
             }
@@ -424,11 +466,21 @@
         .card.flipped .card-label-star {
             opacity: 0.8;
         }
-        .card-label-star.l1 { color: #9e9ea8; }
-        .card-label-star.l2 { color: #4caf50; }
-        .card-label-star.l3 { color: #1e88e5; }
-        .card-label-star.l4 { color: #8e24aa; }
-        .card-label-star.l5 { color: #f9a825; }
+        .card-label-star.l1 {
+            color: #9e9ea8;
+        }
+        .card-label-star.l2 {
+            color: #4caf50;
+        }
+        .card-label-star.l3 {
+            color: #1e88e5;
+        }
+        .card-label-star.l4 {
+            color: #8e24aa;
+        }
+        .card-label-star.l5 {
+            color: #f9a825;
+        }
 
         /* ===== 结果网格 ===== */
         .result-grid {
@@ -442,9 +494,11 @@
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.5s ease;
+            flex-direction: column;
         }
         .result-grid.visible {
             opacity: 1;
+            pointer-events: none;
         }
         .result-grid .card {
             cursor: default;
@@ -453,14 +507,54 @@
             opacity: 0;
         }
         @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.3) rotate(var(--pop-r, 0deg)); }
-            100% { opacity: 1; transform: scale(1) rotate(var(--pop-end-r, 0deg)); }
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(var(--pop-r, 0deg));
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(var(--pop-end-r, 0deg));
+            }
+        }
+
+        /* ===== 结果提示 ===== */
+        .result-hint {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.06em;
+            opacity: 0.7;
+            animation: hintPulse 2.2s infinite;
+            pointer-events: none;
+            font-weight: 400;
+            background: rgba(179, 136, 255, 0.06);
+            padding: 6px 24px;
+            border-radius: 40px;
+            border: 1px solid rgba(179, 136, 255, 0.06);
+        }
+        .result-hint .icon {
+            display: inline-block;
+            animation: floatArrow 1.8s infinite;
+        }
+        @keyframes floatArrow {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(4px);
+            }
         }
 
         /* ===== 提示脉冲 ===== */
         @keyframes hintPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(130, 177, 255, 0.15); }
-            50% { box-shadow: 0 0 40px rgba(130, 177, 255, 0.3); }
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(130, 177, 255, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(130, 177, 255, 0.3);
+            }
         }
 
         /* ===== 响应式 ===== */
@@ -471,11 +565,31 @@
                 --card-gap: 10px;
                 --star-size: 18px;
             }
-            .main-screen { padding: 32px 20px 28px; }
-            .main-screen .logo { font-size: 1.6rem; }
-            .btn-draw { font-size: 0.95rem; padding: 12px 16px; min-width: 100px; }
-            .btn-draw .label-small { font-size: 0.6rem; }
-            .skip-btn { top: 16px; right: 16px; padding: 6px 16px; font-size: 0.75rem; }
+            .main-screen {
+                padding: 32px 20px 28px;
+            }
+            .main-screen .logo {
+                font-size: 1.6rem;
+            }
+            .btn-draw {
+                font-size: 0.95rem;
+                padding: 12px 16px;
+                min-width: 100px;
+            }
+            .btn-draw .label-small {
+                font-size: 0.6rem;
+            }
+            .skip-btn {
+                top: 16px;
+                right: 16px;
+                padding: 6px 16px;
+                font-size: 0.75rem;
+            }
+            .result-hint {
+                font-size: 0.75rem;
+                padding: 4px 16px;
+                margin-top: 14px;
+            }
         }
         @media (max-width: 400px) {
             :root {
@@ -483,614 +597,654 @@
                 --card-height: 104px;
                 --star-size: 15px;
             }
-            .result-grid { gap: 10px; }
-            .card-label-star { font-size: 0.55rem; }
+            .result-grid {
+                gap: 10px;
+            }
+            .card-label-star {
+                font-size: 0.55rem;
+            }
+            .result-hint {
+                font-size: 0.65rem;
+                padding: 3px 12px;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="main-screen" id="mainScreen">
-    <div class="logo">✦ 长汀一中动漫节</div>
-    <div class="sub">✦ 运命の抽奖 ✦</div>
-    <div class="desc">点击卡片逐张揭示</div>
-    <div class="btn-row">
-        <button class="btn-draw single" id="btnSingle">
-            单 抽
-            <span class="label-small">1张卡片</span>
-        </button>
-        <button class="btn-draw multi" id="btnMulti">
-            五 连 抽
-            <span class="label-small">5张卡片</span>
-        </button>
+    <div class="main-screen" id="mainScreen">
+        <div class="logo">✦ 长汀一中动漫节</div>
+        <div class="sub">✦ 运命の抽奖 ✦</div>
+        <div class="desc">点击卡片逐张揭示</div>
+        <div class="btn-row">
+            <button class="btn-draw single" id="btnSingle">
+                单 抽
+                <span class="label-small">1张卡片</span>
+            </button>
+            <button class="btn-draw multi" id="btnMulti">
+                五 连 抽
+                <span class="label-small">5张卡片</span>
+            </button>
+        </div>
     </div>
-</div>
 
-<div class="overlay" id="overlay">
-    <div class="bg-particles" id="bgParticles"></div>
-    <button class="skip-btn" id="skipBtn">⏭ 跳过</button>
-    <div class="card-stage" id="cardStage"></div>
-    <div class="result-grid" id="resultGrid"></div>
-</div>
+    <div class="overlay" id="overlay">
+        <div class="bg-particles" id="bgParticles"></div>
+        <button class="skip-btn" id="skipBtn">⏭ 跳过</button>
+        <div class="card-stage" id="cardStage"></div>
+        <div class="result-grid" id="resultGrid"></div>
+    </div>
 
-<script>
-    (function() {
-        const mainScreen = document.getElementById('mainScreen');
-        const overlay = document.getElementById('overlay');
-        const cardStage = document.getElementById('cardStage');
-        const skipBtn = document.getElementById('skipBtn');
-        const resultGrid = document.getElementById('resultGrid');
-        const bgParticles = document.getElementById('bgParticles');
-        const btnSingle = document.getElementById('btnSingle');
-        const btnMulti = document.getElementById('btnMulti');
+    <script>
+        (function() {
+            const mainScreen = document.getElementById('mainScreen');
+            const overlay = document.getElementById('overlay');
+            const cardStage = document.getElementById('cardStage');
+            const skipBtn = document.getElementById('skipBtn');
+            const resultGrid = document.getElementById('resultGrid');
+            const bgParticles = document.getElementById('bgParticles');
+            const btnSingle = document.getElementById('btnSingle');
+            const btnMulti = document.getElementById('btnMulti');
 
-        const State = {
-            IDLE: 'idle',
-            ROLLING: 'rolling',
-            STACKING: 'stacking',
-            STACKED: 'stacked',
-            CENTERED: 'centered',
-            REVEALED: 'revealed',
-            FLYING: 'flying',
-            RISING: 'rising',
-            ALL_REVEALED: 'all_revealed',
-            SKIPPING: 'skipping',
-            CLOSING: 'closing',
-        };
+            const State = {
+                IDLE: 'idle',
+                ROLLING: 'rolling',
+                STACKING: 'stacking',
+                STACKED: 'stacked',
+                CENTERED: 'centered',
+                REVEALED: 'revealed',
+                FLYING: 'flying',
+                RISING: 'rising',
+                ALL_REVEALED: 'all_revealed',
+                SKIPPING: 'skipping',
+                CLOSING: 'closing',
+            };
 
-        let currentState = State.IDLE;
-        let cards = [];
-        let totalCards = 0;
-        let topCardIndex = -1;
-        let centeredIndex = -1;
-        let rollingAnimId = null;
-        let flyTimer = null;
+            let currentState = State.IDLE;
+            let cards = [];
+            let totalCards = 0;
+            let topCardIndex = -1;
+            let centeredIndex = -1;
+            let rollingAnimId = null;
+            let flyTimer = null;
+            let closeHandlerFn = null;
 
-        // ===== 背景粒子 =====
-        function initBgParticles() {
-            bgParticles.innerHTML = '';
-            const colors = ['#b388ff', '#82b1ff', '#ff80ab', '#ffd54f'];
-            for (let i = 0; i < 20; i++) {
-                const p = document.createElement('div');
-                p.className = 'part';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.top = Math.random() * 100 + '%';
-                p.style.animationDelay = Math.random() * 4 + 's';
-                p.style.width = (3 + Math.random() * 6) + 'px';
-                p.style.height = p.style.width;
-                p.style.background = colors[Math.floor(Math.random() * colors.length)];
-                bgParticles.appendChild(p);
-            }
-        }
-        initBgParticles();
-
-        // ===== 工具 =====
-        function randomStars() {
-            const r = Math.random();
-            if (r < 0.40) return 1;
-            if (r < 0.80) return 2;
-            if (r < 0.93) return 3;
-            if (r < 0.99) return 4;
-            return 5;
-        }
-
-        function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
-
-        function getStarClass(star) {
-            return 's' + star;
-        }
-
-        function getLabelClass(star) {
-            return 'l' + star;
-        }
-
-        function getCardBorderClass(star) {
-            return 'star-' + star;
-        }
-
-        function getCardGlow(star) {
-            if (star === 5) return '0 0 40px rgba(255,128,171,0.08)';
-            if (star === 4) return '0 0 30px rgba(179,136,255,0.06)';
-            return 'none';
-        }
-
-        // ===== 创建自定义星星 DOM =====
-        function createStarElement(star, size) {
-            const el = document.createElement('span');
-            el.className = `star-custom ${getStarClass(star)}`;
-            if (size) el.style.width = size + 'px', el.style.height = size + 'px';
-            return el;
-        }
-
-        // ===== 创建卡片 =====
-        function createCardElement(stars, index) {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.setAttribute('data-index', index);
-
-            const inner = document.createElement('div');
-            inner.className = 'card-inner';
-
-            // ---- 卡背 ----
-            const back = document.createElement('div');
-            back.className = 'card-face card-back';
-            const pattern = document.createElement('div');
-            pattern.className = 'pattern';
-            const diamond = document.createElement('div');
-            diamond.className = 'diamond';
-            const ring = document.createElement('div');
-            ring.className = 'ring';
-            const labelBack = document.createElement('div');
-            labelBack.className = 'label-back';
-            labelBack.textContent = '✦';
-            pattern.appendChild(diamond);
-            pattern.appendChild(ring);
-            back.appendChild(pattern);
-            back.appendChild(labelBack);
-
-            // ---- 卡面 ----
-            const front = document.createElement('div');
-            front.className = `card-face card-front ${getCardBorderClass(stars)}`;
-
-            const starRow = document.createElement('div');
-            starRow.className = 'star-row-custom';
-            for (let s = 0; s < stars; s++) {
-                starRow.appendChild(createStarElement(stars));
-            }
-
-            const label = document.createElement('div');
-            label.className = `card-label-star ${getLabelClass(stars)}`;
-            label.textContent = stars + ' ★';
-
-            front.appendChild(starRow);
-            front.appendChild(label);
-
-            inner.appendChild(back);
-            inner.appendChild(front);
-            card.appendChild(inner);
-            return card;
-        }
-
-        // ===== 舞台控制 =====
-        function resetStageStyle() {
-            cardStage.style.display = '';
-            cardStage.style.width = '';
-            cardStage.style.height = '';
-            cardStage.style.overflow = '';
-            cardStage.style.transform = '';
-            cardStage.style.opacity = '';
-            cardStage.style.margin = '';
-            cardStage.style.position = '';
-            cardStage.classList.remove('stacked');
-            cardStage.innerHTML = '';
-            resultGrid.innerHTML = '';
-            resultGrid.classList.remove('visible');
-        }
-
-        function openOverlay() {
-            overlay.classList.add('active');
-            mainScreen.style.pointerEvents = 'none';
-            mainScreen.style.opacity = '0.3';
-            mainScreen.style.transform = 'scale(0.96)';
-        }
-
-        function closeOverlay() {
-            if (currentState === State.CLOSING) return;
-            currentState = State.CLOSING;
-            if (flyTimer) { clearTimeout(flyTimer); flyTimer = null; }
-            resetStageStyle();
-            skipBtn.classList.remove('visible');
-            cards = [];
-            totalCards = 0;
-            topCardIndex = -1;
-            centeredIndex = -1;
-            if (rollingAnimId) cancelAnimationFrame(rollingAnimId);
-            overlay.classList.remove('active');
-            mainScreen.style.pointerEvents = 'auto';
-            mainScreen.style.opacity = '1';
-            mainScreen.style.transform = 'scale(1)';
-            currentState = State.IDLE;
-            btnSingle.disabled = false;
-            btnMulti.disabled = false;
-        }
-
-        function showResultGrid() {
-            resultGrid.innerHTML = '';
-            cards.forEach((c, i) => {
-                const clone = createCardElement(c.stars, i);
-                clone.classList.add('flipped');
-                clone.style.setProperty('--pop-r', (Math.random() - 0.5) * 40 + 'deg');
-                clone.style.setProperty('--pop-end-r', (Math.random() - 0.5) * 8 + 'deg');
-                clone.style.animationDelay = i * 0.08 + 's';
-                clone.style.position = 'relative';
-                clone.style.cursor = 'default';
-                clone.style.pointerEvents = 'none';
-                clone.style.boxShadow = getCardGlow(c.stars);
-                resultGrid.appendChild(clone);
-            });
-            requestAnimationFrame(() => resultGrid.classList.add('visible'));
-        }
-
-        // ===== 抽卡主流程 =====
-        function startDraw(multi) {
-            if (currentState !== State.IDLE) return;
-            currentState = State.ROLLING;
-            totalCards = multi ? 5 : 1;
-            cards = [];
-            topCardIndex = multi ? totalCards - 1 : 0;
-            centeredIndex = -1;
-            btnSingle.disabled = btnMulti.disabled = true;
-
-            const starsList = [];
-            for (let i = 0; i < totalCards; i++) starsList.push(randomStars());
-            if (multi && starsList.every(s => s <= 2)) {
-                starsList[Math.floor(Math.random() * totalCards)] = 3;
-            }
-
-            openOverlay();
-            resetStageStyle();
-
-            starsList.forEach((stars, i) => {
-                const el = createCardElement(stars, i);
-                cards.push({ element: el, stars, revealed: false, flown: false });
-            });
-
-            if (multi) {
-                startRollingAnimation(starsList);
-            } else {
-                cardStage.appendChild(cards[0].element);
-                requestAnimationFrame(() => transitionToStack());
-            }
-        }
-
-        // ===== 滚动动画 =====
-        function startRollingAnimation(starsList) {
-            const stage = cardStage;
-            const cardH = cards[0].element.offsetHeight || 162;
-            const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--card-gap')) || 14;
-            const visibleHeight = cardH * 5 + gap * 4;
-            stage.style.height = visibleHeight + 'px';
-            stage.style.width = (cards[0].element.offsetWidth || 120) + 'px';
-            stage.style.overflow = 'hidden';
-            stage.style.position = 'relative';
-            stage.style.display = 'block';
-            stage.style.margin = '0 auto';
-
-            const scrollInner = document.createElement('div');
-            scrollInner.style.position = 'absolute';
-            scrollInner.style.left = '0';
-            scrollInner.style.top = '0';
-            scrollInner.style.width = '100%';
-            scrollInner.style.display = 'flex';
-            scrollInner.style.flexDirection = 'column';
-            scrollInner.style.alignItems = 'center';
-            scrollInner.style.gap = gap + 'px';
-
-            const groupHeight = totalCards * (cardH + gap);
-            for (let s = 0; s < 3; s++) {
-                for (let i = 0; i < totalCards; i++) {
-                    const clone = createCardElement(starsList[i], -1);
-                    clone.style.pointerEvents = 'none';
-                    scrollInner.appendChild(clone);
+            // ===== 背景粒子 =====
+            function initBgParticles() {
+                bgParticles.innerHTML = '';
+                const colors = ['#b388ff', '#82b1ff', '#ff80ab', '#ffd54f'];
+                for (let i = 0; i < 20; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'part';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.top = Math.random() * 100 + '%';
+                    p.style.animationDelay = Math.random() * 4 + 's';
+                    p.style.width = (3 + Math.random() * 6) + 'px';
+                    p.style.height = p.style.width;
+                    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    bgParticles.appendChild(p);
                 }
             }
-            stage.innerHTML = '';
-            stage.appendChild(scrollInner);
+            initBgParticles();
 
-            let currentY = -groupHeight;
-            scrollInner.style.transform = `translateY(${currentY}px)`;
+            // ===== 工具 =====
+            // ★ 5星概率 0.8% (原1%下调)
+            function randomStars() {
+                const r = Math.random();
+                if (r < 0.40) return 1;
+                if (r < 0.80) return 2;
+                if (r < 0.93) return 3;
+                if (r < 0.992) return 4;
+                return 5;
+            }
 
-            const startTime = performance.now();
-            const duration = 2000;
+            function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
-            function step(now) {
-                const elapsed = now - startTime;
-                const progress = clamp(elapsed / duration, 0, 1);
-                const easedProgress = 1 - Math.pow(1 - progress, 3);
-                const totalDistance = groupHeight * 2;
-                const targetY = currentY + totalDistance * easedProgress;
-                let displayY = targetY;
-                while (displayY > 0) displayY -= groupHeight;
-                scrollInner.style.transform = `translateY(${displayY}px)`;
+            function getStarClass(star) {
+                return 's' + star;
+            }
 
-                if (progress < 1) {
-                    rollingAnimId = requestAnimationFrame(step);
+            function getLabelClass(star) {
+                return 'l' + star;
+            }
+
+            function getCardBorderClass(star) {
+                return 'star-' + star;
+            }
+
+            function getCardGlow(star) {
+                if (star === 5) return '0 0 40px rgba(255,128,171,0.08)';
+                if (star === 4) return '0 0 30px rgba(179,136,255,0.06)';
+                return 'none';
+            }
+
+            function createStarElement(star, size) {
+                const el = document.createElement('span');
+                el.className = `star-custom ${getStarClass(star)}`;
+                if (size) el.style.width = size + 'px', el.style.height = size + 'px';
+                return el;
+            }
+
+            function createCardElement(stars, index) {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('data-index', index);
+
+                const inner = document.createElement('div');
+                inner.className = 'card-inner';
+
+                const back = document.createElement('div');
+                back.className = 'card-face card-back';
+                const pattern = document.createElement('div');
+                pattern.className = 'pattern';
+                const diamond = document.createElement('div');
+                diamond.className = 'diamond';
+                const ring = document.createElement('div');
+                ring.className = 'ring';
+                const labelBack = document.createElement('div');
+                labelBack.className = 'label-back';
+                labelBack.textContent = '✦';
+                pattern.appendChild(diamond);
+                pattern.appendChild(ring);
+                back.appendChild(pattern);
+                back.appendChild(labelBack);
+
+                const front = document.createElement('div');
+                front.className = `card-face card-front ${getCardBorderClass(stars)}`;
+
+                const starRow = document.createElement('div');
+                starRow.className = 'star-row-custom';
+                for (let s = 0; s < stars; s++) {
+                    starRow.appendChild(createStarElement(stars));
+                }
+
+                const label = document.createElement('div');
+                label.className = `card-label-star ${getLabelClass(stars)}`;
+                label.textContent = stars + ' ★';
+
+                front.appendChild(starRow);
+                front.appendChild(label);
+
+                inner.appendChild(back);
+                inner.appendChild(front);
+                card.appendChild(inner);
+                return card;
+            }
+
+            function resetStageStyle() {
+                cardStage.style.display = '';
+                cardStage.style.width = '';
+                cardStage.style.height = '';
+                cardStage.style.overflow = '';
+                cardStage.style.transform = '';
+                cardStage.style.opacity = '';
+                cardStage.style.margin = '';
+                cardStage.style.position = '';
+                cardStage.classList.remove('stacked');
+                cardStage.innerHTML = '';
+                resultGrid.innerHTML = '';
+                resultGrid.classList.remove('visible');
+                overlay.classList.remove('click-to-close');
+                const hint = resultGrid.querySelector('.result-hint');
+                if (hint) hint.remove();
+            }
+
+            function openOverlay() {
+                overlay.classList.add('active');
+                mainScreen.style.pointerEvents = 'none';
+                mainScreen.style.opacity = '0.3';
+                mainScreen.style.transform = 'scale(0.96)';
+            }
+
+            function closeOverlay() {
+                if (currentState === State.CLOSING) return;
+                currentState = State.CLOSING;
+                if (flyTimer) { clearTimeout(flyTimer);
+                    flyTimer = null; }
+                if (rollingAnimId) cancelAnimationFrame(rollingAnimId);
+                if (closeHandlerFn) {
+                    overlay.removeEventListener('click', closeHandlerFn);
+                    closeHandlerFn = null;
+                }
+                resetStageStyle();
+                skipBtn.classList.remove('visible');
+                cards = [];
+                totalCards = 0;
+                topCardIndex = -1;
+                centeredIndex = -1;
+                overlay.classList.remove('active');
+                overlay.classList.remove('click-to-close');
+                mainScreen.style.pointerEvents = 'auto';
+                mainScreen.style.opacity = '1';
+                mainScreen.style.transform = 'scale(1)';
+                currentState = State.IDLE;
+                btnSingle.disabled = false;
+                btnMulti.disabled = false;
+            }
+
+            // ===== 显示结果网格（停留，点击关闭） =====
+            function showResultGridAndWait() {
+                resultGrid.innerHTML = '';
+                const wrap = document.createElement('div');
+                wrap.style.display = 'flex';
+                wrap.style.flexWrap = 'wrap';
+                wrap.style.gap = '16px';
+                wrap.style.justifyContent = 'center';
+                wrap.style.alignItems = 'center';
+
+                cards.forEach((c, i) => {
+                    const clone = createCardElement(c.stars, i);
+                    clone.classList.add('flipped');
+                    clone.style.setProperty('--pop-r', (Math.random() - 0.5) * 40 + 'deg');
+                    clone.style.setProperty('--pop-end-r', (Math.random() - 0.5) * 8 + 'deg');
+                    clone.style.animationDelay = i * 0.08 + 's';
+                    clone.style.position = 'relative';
+                    clone.style.cursor = 'default';
+                    clone.style.pointerEvents = 'none';
+                    clone.style.boxShadow = getCardGlow(c.stars);
+                    wrap.appendChild(clone);
+                });
+                resultGrid.appendChild(wrap);
+
+                const hint = document.createElement('div');
+                hint.className = 'result-hint';
+                hint.innerHTML = `<span class="icon">✦</span> 点击任意位置继续 <span class="icon">✦</span>`;
+                resultGrid.appendChild(hint);
+
+                // 隐藏卡片舞台，避免干扰
+                cardStage.style.display = 'none';
+
+                requestAnimationFrame(() => {
+                    resultGrid.classList.add('visible');
+                    overlay.classList.add('click-to-close');
+                });
+
+                // 绑定点击关闭（仅一次，避免重复）
+                if (closeHandlerFn) {
+                    overlay.removeEventListener('click', closeHandlerFn);
+                }
+                closeHandlerFn = function(e) {
+                    if (currentState === State.ALL_REVEALED) {
+                        closeOverlay();
+                    }
+                };
+                overlay.addEventListener('click', closeHandlerFn);
+            }
+
+            // ===== 所有卡片揭示完成 =====
+            function finishAllRevealed() {
+                currentState = State.ALL_REVEALED;
+                skipBtn.classList.remove('visible');
+                showResultGridAndWait();
+            }
+
+            // ===== 抽卡主流程 =====
+            function startDraw(multi) {
+                if (currentState !== State.IDLE) return;
+                currentState = State.ROLLING;
+                totalCards = multi ? 5 : 1;
+                cards = [];
+                topCardIndex = multi ? totalCards - 1 : 0;
+                centeredIndex = -1;
+                btnSingle.disabled = btnMulti.disabled = true;
+
+                const starsList = [];
+                for (let i = 0; i < totalCards; i++) starsList.push(randomStars());
+                if (multi && starsList.every(s => s <= 2)) {
+                    starsList[Math.floor(Math.random() * totalCards)] = 3;
+                }
+
+                openOverlay();
+                resetStageStyle();
+
+                starsList.forEach((stars, i) => {
+                    const el = createCardElement(stars, i);
+                    cards.push({ element: el, stars, revealed: false, flown: false });
+                });
+
+                if (multi) {
+                    startRollingAnimation(starsList);
                 } else {
-                    rollingAnimId = null;
-                    stage.innerHTML = '';
-                    stage.style.height = '';
-                    stage.style.overflow = '';
-                    stage.style.display = '';
-                    stage.style.width = '';
-                    stage.style.position = '';
-                    stage.style.margin = '';
-                    cards.forEach(c => stage.appendChild(c.element));
-                    stage.offsetHeight;
+                    cardStage.appendChild(cards[0].element);
                     requestAnimationFrame(() => transitionToStack());
                 }
             }
-            rollingAnimId = requestAnimationFrame(step);
-        }
 
-        // ===== 堆叠到右下角 =====
-        function transitionToStack() {
-            currentState = State.STACKING;
-            const stage = cardStage;
-            const parentRect = stage.parentElement.getBoundingClientRect();
-            const maxW = Math.min(parentRect.width * 0.85, 400);
-            const maxH = Math.min(parentRect.height * 0.85, 500);
-            stage.style.width = maxW + 'px';
-            stage.style.height = maxH + 'px';
-            stage.style.position = 'relative';
-            stage.style.display = 'block';
-            stage.style.margin = '0 auto';
+            function startRollingAnimation(starsList) {
+                const stage = cardStage;
+                const cardH = cards[0].element.offsetHeight || 162;
+                const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--card-gap')) || 14;
+                const visibleHeight = cardH * 5 + gap * 4;
+                stage.style.height = visibleHeight + 'px';
+                stage.style.width = (cards[0].element.offsetWidth || 120) + 'px';
+                stage.style.overflow = 'hidden';
+                stage.style.position = 'relative';
+                stage.style.display = 'block';
+                stage.style.margin = '0 auto';
 
-            stage.style.display = 'flex';
-            stage.style.flexDirection = 'column';
-            stage.style.alignItems = 'center';
-            stage.style.justifyContent = 'center';
-            stage.style.gap = '0';
+                const scrollInner = document.createElement('div');
+                scrollInner.style.position = 'absolute';
+                scrollInner.style.left = '0';
+                scrollInner.style.top = '0';
+                scrollInner.style.width = '100%';
+                scrollInner.style.display = 'flex';
+                scrollInner.style.flexDirection = 'column';
+                scrollInner.style.alignItems = 'center';
+                scrollInner.style.gap = gap + 'px';
 
-            stage.offsetHeight;
+                const groupHeight = totalCards * (cardH + gap);
+                for (let s = 0; s < 3; s++) {
+                    for (let i = 0; i < totalCards; i++) {
+                        const clone = createCardElement(starsList[i], -1);
+                        clone.style.pointerEvents = 'none';
+                        scrollInner.appendChild(clone);
+                    }
+                }
+                stage.innerHTML = '';
+                stage.appendChild(scrollInner);
 
-            const stageRect = stage.getBoundingClientRect();
-            const stageW = stage.clientWidth;
-            const stageH = stage.clientHeight;
+                let currentY = -groupHeight;
+                scrollInner.style.transform = `translateY(${currentY}px)`;
 
-            cards.forEach((c, i) => {
-                const rect = c.element.getBoundingClientRect();
-                c._initLeft = rect.left - stageRect.left;
-                c._initTop = rect.top - stageRect.top;
-            });
+                const startTime = performance.now();
+                const duration = 2000;
 
-            cards.forEach((c, i) => {
-                c.element.style.position = 'absolute';
-                c.element.style.left = c._initLeft + 'px';
-                c.element.style.top = c._initTop + 'px';
-                c.element.style.transform = 'none';
-                c.element.style.transition = 'none';
-                c.element.style.zIndex = i;
-            });
+                function step(now) {
+                    const elapsed = now - startTime;
+                    const progress = clamp(elapsed / duration, 0, 1);
+                    const easedProgress = 1 - Math.pow(1 - progress, 3);
+                    const totalDistance = groupHeight * 2;
+                    const targetY = currentY + totalDistance * easedProgress;
+                    let displayY = targetY;
+                    while (displayY > 0) displayY -= groupHeight;
+                    scrollInner.style.transform = `translateY(${displayY}px)`;
 
-            stage.offsetHeight;
+                    if (progress < 1) {
+                        rollingAnimId = requestAnimationFrame(step);
+                    } else {
+                        rollingAnimId = null;
+                        stage.innerHTML = '';
+                        stage.style.height = '';
+                        stage.style.overflow = '';
+                        stage.style.display = '';
+                        stage.style.width = '';
+                        stage.style.position = '';
+                        stage.style.margin = '';
+                        cards.forEach(c => stage.appendChild(c.element));
+                        stage.offsetHeight;
+                        requestAnimationFrame(() => transitionToStack());
+                    }
+                }
+                rollingAnimId = requestAnimationFrame(step);
+            }
 
-            const cardW = cards[0].element.offsetWidth;
-            const cardH = cards[0].element.offsetHeight;
+            function transitionToStack() {
+                currentState = State.STACKING;
+                const stage = cardStage;
+                const parentRect = stage.parentElement.getBoundingClientRect();
+                const maxW = Math.min(parentRect.width * 0.85, 400);
+                const maxH = Math.min(parentRect.height * 0.85, 500);
+                stage.style.width = maxW + 'px';
+                stage.style.height = maxH + 'px';
+                stage.style.position = 'relative';
+                stage.style.display = 'block';
+                stage.style.margin = '0 auto';
 
-            // 边距设为负值，让卡片向右超出边缘
-            const marginRight = -200;
-            const marginBottom = 0;
-            const targetCX = stageW - cardW - marginRight;
-            const targetCY = stageH - cardH - marginBottom;
+                stage.style.display = 'flex';
+                stage.style.flexDirection = 'column';
+                stage.style.alignItems = 'center';
+                stage.style.justifyContent = 'center';
+                stage.style.gap = '0';
 
-            const offsets = totalCards === 1 ? [{ dx: 0, dy: 0, rot: 0 }] :
-                totalCards === 5 ? [
-                    { dx: 20, dy: 16, rot: -4.0 }, { dx: 12, dy: 9, rot: -2.0 },
-                    { dx: 5, dy: 4, rot: -0.6 }, { dx: -2, dy: -1, rot: 0.8 },
-                    { dx: 0, dy: 0, rot: 0 }
-                ] :
-                Array.from({ length: totalCards }, (_, i) => ({
-                    dx: (1 - i / (totalCards - 1)) * 18 - 2,
-                    dy: (1 - i / (totalCards - 1)) * 14 - 1,
-                    rot: (1 - i / (totalCards - 1)) * -4.5
-                }));
+                stage.offsetHeight;
 
-            requestAnimationFrame(() => {
+                const stageRect = stage.getBoundingClientRect();
+                const stageW = stage.clientWidth;
+                const stageH = stage.clientHeight;
+
                 cards.forEach((c, i) => {
-                    const off = offsets[i] || { dx: 0, dy: 0, rot: 0 };
-                    c.element.style.transition = 'left 0.55s, top 0.55s, transform 0.55s';
-                    c.element.style.left = (targetCX + off.dx) + 'px';
-                    c.element.style.top = (targetCY + off.dy) + 'px';
-                    c.element.style.transform = `rotate(${off.rot}deg)`;
-                    c._stackDx = off.dx;
-                    c._stackDy = off.dy;
-                    c._stackRot = off.rot;
-                    c._stackIndex = i;
+                    const rect = c.element.getBoundingClientRect();
+                    c._initLeft = rect.left - stageRect.left;
+                    c._initTop = rect.top - stageRect.top;
                 });
-                highlightTopCard();
-                setTimeout(() => {
-                    currentState = State.STACKED;
-                    skipBtn.classList.add('visible');
-                    if (topCardIndex >= 0) addClickHint(cards[topCardIndex].element);
-                }, 600);
-            });
-        }
 
-        function highlightTopCard() {
-            cards.forEach(c => { c.element.style.boxShadow = ''; c.element.style.filter = ''; });
-            if (topCardIndex >= 0 && cards[topCardIndex]) {
-                const t = cards[topCardIndex];
-                t.element.style.boxShadow = '0 0 28px rgba(130, 177, 255, 0.25)';
-                t.element.style.filter = 'brightness(1.02)';
-                t.element.style.zIndex = 100;
+                cards.forEach((c, i) => {
+                    c.element.style.position = 'absolute';
+                    c.element.style.left = c._initLeft + 'px';
+                    c.element.style.top = c._initTop + 'px';
+                    c.element.style.transform = 'none';
+                    c.element.style.transition = 'none';
+                    c.element.style.zIndex = i;
+                });
+
+                stage.offsetHeight;
+
+                const cardW = cards[0].element.offsetWidth;
+                const cardH = cards[0].element.offsetHeight;
+
+                const marginRight = -200;
+                const marginBottom = 0;
+                const targetCX = stageW - cardW - marginRight;
+                const targetCY = stageH - cardH - marginBottom;
+
+                const offsets = totalCards === 1 ? [{ dx: 0, dy: 0, rot: 0 }] :
+                    totalCards === 5 ? [
+                        { dx: 20, dy: 16, rot: -4.0 }, { dx: 12, dy: 9, rot: -2.0 },
+                        { dx: 5, dy: 4, rot: -0.6 }, { dx: -2, dy: -1, rot: 0.8 },
+                        { dx: 0, dy: 0, rot: 0 }
+                    ] :
+                    Array.from({ length: totalCards }, (_, i) => ({
+                        dx: (1 - i / (totalCards - 1)) * 18 - 2,
+                        dy: (1 - i / (totalCards - 1)) * 14 - 1,
+                        rot: (1 - i / (totalCards - 1)) * -4.5
+                    }));
+
+                requestAnimationFrame(() => {
+                    cards.forEach((c, i) => {
+                        const off = offsets[i] || { dx: 0, dy: 0, rot: 0 };
+                        c.element.style.transition = 'left 0.55s, top 0.55s, transform 0.55s';
+                        c.element.style.left = (targetCX + off.dx) + 'px';
+                        c.element.style.top = (targetCY + off.dy) + 'px';
+                        c.element.style.transform = `rotate(${off.rot}deg)`;
+                        c._stackDx = off.dx;
+                        c._stackDy = off.dy;
+                        c._stackRot = off.rot;
+                        c._stackIndex = i;
+                    });
+                    highlightTopCard();
+                    setTimeout(() => {
+                        currentState = State.STACKED;
+                        skipBtn.classList.add('visible');
+                        if (topCardIndex >= 0) addClickHint(cards[topCardIndex].element);
+                    }, 600);
+                });
             }
-        }
 
-        function addClickHint(el) {
-            el.style.animation = 'hintPulse 1.8s infinite';
-        }
+            function highlightTopCard() {
+                cards.forEach(c => { c.element.style.boxShadow = '';
+                    c.element.style.filter = ''; });
+                if (topCardIndex >= 0 && cards[topCardIndex]) {
+                    const t = cards[topCardIndex];
+                    t.element.style.boxShadow = '0 0 28px rgba(130, 177, 255, 0.25)';
+                    t.element.style.filter = 'brightness(1.02)';
+                    t.element.style.zIndex = 100;
+                }
+            }
 
-        // ============================================================
-        //  将卡片滑动到舞台中央
-        // ============================================================
-        function moveToCenter(index) {
-            if (currentState !== State.STACKED) return;
-            const card = cards[index];
-            if (!card || card.revealed) return;
+            function addClickHint(el) {
+                el.style.animation = 'hintPulse 1.8s infinite';
+            }
 
-            const stageW = cardStage.clientWidth;
-            const stageH = cardStage.clientHeight;
-            const cardW = card.element.offsetWidth;
-            const cardH = card.element.offsetHeight;
-            const targetCX = (stageW - cardW) / 2;
-            const targetCY = (stageH - cardH) / 2;
+            function moveToCenter(index) {
+                if (currentState !== State.STACKED) return;
+                const card = cards[index];
+                if (!card || card.revealed) return;
 
-            card.element.style.zIndex = 200;
-            card.element.style.transition = 'left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            card.element.style.left = targetCX + 'px';
-            card.element.style.top = targetCY + 'px';
-            card.element.style.transform = 'rotate(0deg)';
+                const stageW = cardStage.clientWidth;
+                const stageH = cardStage.clientHeight;
+                const cardW = card.element.offsetWidth;
+                const cardH = card.element.offsetHeight;
+                const targetCX = (stageW - cardW) / 2;
+                const targetCY = (stageH - cardH) / 2;
 
-            cards.forEach(c => {
-                c.element.style.animation = '';
-                c.element.style.boxShadow = '';
-                c.element.style.filter = '';
-            });
+                card.element.style.zIndex = 200;
+                card.element.style.transition =
+                    'left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                card.element.style.left = targetCX + 'px';
+                card.element.style.top = targetCY + 'px';
+                card.element.style.transform = 'rotate(0deg)';
 
-            currentState = State.CENTERED;
-            centeredIndex = index;
+                cards.forEach(c => {
+                    c.element.style.animation = '';
+                    c.element.style.boxShadow = '';
+                    c.element.style.filter = '';
+                });
 
-            skipBtn.classList.add('visible');
+                currentState = State.CENTERED;
+                centeredIndex = index;
 
-            card.element.style.animation = 'hintPulse 1.8s infinite';
-            card.element.style.boxShadow = '0 0 30px rgba(130, 177, 255, 0.3)';
-        }
+                skipBtn.classList.add('visible');
 
-        // ===== 翻转揭示 =====
-        function revealCard(index) {
-            if (currentState !== State.CENTERED) return;
-            if (index !== centeredIndex) return;
-            const card = cards[index];
-            if (!card || card.revealed) return;
+                card.element.style.animation = 'hintPulse 1.8s infinite';
+                card.element.style.boxShadow = '0 0 30px rgba(130, 177, 255, 0.3)';
+            }
 
-            card.revealed = true;
-            card.element.style.animation = '';
-            card.element.classList.add('flipped');
-            card.element.style.boxShadow = getCardGlow(card.stars);
-            currentState = State.REVEALED;
-            skipBtn.classList.add('visible');
-            centeredIndex = -1;
-        }
+            function revealCard(index) {
+                if (currentState !== State.CENTERED) return;
+                if (index !== centeredIndex) return;
+                const card = cards[index];
+                if (!card || card.revealed) return;
 
-        // ===== 飞出后直接让下一张居中 =====
-        function flyOutCard(index) {
-            if (currentState !== State.REVEALED) return;
-            const card = cards[index];
-            if (!card || !card.revealed || card.flown) return;
+                card.revealed = true;
+                card.element.style.animation = '';
+                card.element.classList.add('flipped');
+                card.element.style.boxShadow = getCardGlow(card.stars);
+                currentState = State.REVEALED;
+                skipBtn.classList.add('visible');
+                centeredIndex = -1;
+            }
 
-            currentState = State.FLYING;
-            card.flown = true;
-            const el = card.element;
+            function flyOutCard(index) {
+                if (currentState !== State.REVEALED) return;
+                const card = cards[index];
+                if (!card || !card.revealed || card.flown) return;
 
-            el.style.animation = '';
-            void el.offsetWidth;
-            el.classList.add('flying-left');
-            el.style.pointerEvents = 'none';
+                currentState = State.FLYING;
+                card.flown = true;
+                const el = card.element;
 
-            if (flyTimer) clearTimeout(flyTimer);
-            flyTimer = setTimeout(() => {
-                if (currentState !== State.FLYING) { flyTimer = null; return; }
-                el.style.opacity = '0';
-                el.style.transition = 'none';
-                el.classList.remove('flying-left');
+                el.style.animation = '';
+                void el.offsetWidth;
+                el.classList.add('flying-left');
+                el.style.pointerEvents = 'none';
 
-                let newTop = -1;
-                const sorted = cards.map((c, i) => ({ i, z: c._stackIndex || i }))
-                    .filter(item => !cards[item.i].flown)
-                    .sort((a, b) => b.z - a.z);
-                if (sorted.length > 0) newTop = sorted[0].i;
-                topCardIndex = newTop;
+                if (flyTimer) clearTimeout(flyTimer);
+                flyTimer = setTimeout(() => {
+                    if (currentState !== State.FLYING) { flyTimer = null; return; }
+                    el.style.opacity = '0';
+                    el.style.transition = 'none';
+                    el.classList.remove('flying-left');
 
-                if (cards.every(c => c.flown)) {
-                    finishAllRevealedShowResult();
+                    let newTop = -1;
+                    const sorted = cards.map((c, i) => ({ i, z: c._stackIndex || i }))
+                        .filter(item => !cards[item.i].flown)
+                        .sort((a, b) => b.z - a.z);
+                    if (sorted.length > 0) newTop = sorted[0].i;
+                    topCardIndex = newTop;
+
+                    if (cards.every(c => c.flown)) {
+                        finishAllRevealed();
+                        flyTimer = null;
+                        return;
+                    }
+
+                    if (topCardIndex >= 0 && !cards[topCardIndex].flown) {
+                        currentState = State.STACKED;
+                        moveToCenter(topCardIndex);
+                    }
                     flyTimer = null;
-                    return;
-                }
-
-                if (topCardIndex >= 0 && !cards[topCardIndex].flown) {
-                    // ✅ 先切换到 STACKED，然后调用 moveToCenter
-                    currentState = State.STACKED;
-                    moveToCenter(topCardIndex);
-                }
-                flyTimer = null;
-            }, 650);
-        }
-
-        function finishAllRevealedShowResult() {
-            currentState = State.ALL_REVEALED;
-            skipBtn.classList.remove('visible');
-            cardStage.style.opacity = '0';
-            cardStage.style.transition = 'opacity 0.35s';
-            showResultGrid();
-            setTimeout(() => { if (currentState === State.ALL_REVEALED) closeOverlay(); }, 2000);
-        }
-
-        // ===== 跳过 =====
-        skipBtn.addEventListener('click', () => {
-            if (currentState === State.STACKED || currentState === State.CENTERED ||
-                currentState === State.REVEALED || currentState === State.RISING) {
-                performSkip();
+                }, 650);
             }
-        });
 
-        function performSkip() {
-            if (currentState === State.SKIPPING) return;
-            currentState = State.SKIPPING;
-            skipBtn.classList.remove('visible');
-            if (flyTimer) { clearTimeout(flyTimer); flyTimer = null; }
-            if (rollingAnimId) cancelAnimationFrame(rollingAnimId);
-
-            cardStage.style.opacity = '0';
-            cardStage.style.transition = 'opacity 0.35s';
-
-            cards.forEach(c => {
-                if (!c.flown) {
-                    c.revealed = true;
-                    c.flown = true;
-                    c.element.classList.add('flipped');
-                    c.element.style.boxShadow = getCardGlow(c.stars);
-                }
-            });
-            showResultGrid();
-            setTimeout(() => { if (currentState === State.SKIPPING) closeOverlay(); }, 2000);
-        }
-
-        // ============================================================
-        //  事件绑定
-        // ============================================================
-        cardStage.addEventListener('click', e => {
-            const card = e.target.closest('.card');
-            if (!card) return;
-            const idx = parseInt(card.getAttribute('data-index'));
-
-            if (currentState === State.STACKED) {
-                if (idx !== topCardIndex || cards[idx].revealed) return;
-                moveToCenter(idx);
-            } else if (currentState === State.CENTERED) {
-                if (idx !== centeredIndex) return;
-                revealCard(idx);
-            } else if (currentState === State.REVEALED) {
-                if (idx !== topCardIndex || !cards[idx].revealed || cards[idx].flown) return;
-                flyOutCard(idx);
-            }
-        });
-
-        // ===== 绑定按钮 =====
-        btnSingle.addEventListener('click', () => startDraw(false));
-        btnMulti.addEventListener('click', () => startDraw(true));
-
-        // ===== 键盘快捷键 =====
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape' && currentState !== State.IDLE && currentState !== State.CLOSING) {
+            // ===== 跳过 =====
+            skipBtn.addEventListener('click', () => {
                 if (currentState === State.STACKED || currentState === State.CENTERED ||
                     currentState === State.REVEALED || currentState === State.RISING) {
                     performSkip();
                 }
-            }
-            if (e.key === ' ') {
-                e.preventDefault();
-                if (currentState === State.STACKED && topCardIndex >= 0) {
-                    moveToCenter(topCardIndex);
-                } else if (currentState === State.CENTERED && centeredIndex >= 0) {
-                    revealCard(centeredIndex);
-                } else if (currentState === State.REVEALED && topCardIndex >= 0) {
-                    flyOutCard(topCardIndex);
-                }
-            }
-        });
+            });
 
-        console.log('✦ 长汀一中动漫节 · 五连抽流畅版已加载');
-    })();
-</script>
+            function performSkip() {
+                if (currentState === State.SKIPPING) return;
+                currentState = State.SKIPPING;
+                skipBtn.classList.remove('visible');
+                if (flyTimer) { clearTimeout(flyTimer);
+                    flyTimer = null; }
+                if (rollingAnimId) cancelAnimationFrame(rollingAnimId);
+
+                cardStage.style.opacity = '0';
+                cardStage.style.transition = 'opacity 0.35s';
+
+                cards.forEach(c => {
+                    if (!c.flown) {
+                        c.revealed = true;
+                        c.flown = true;
+                        c.element.classList.add('flipped');
+                        c.element.style.boxShadow = getCardGlow(c.stars);
+                    }
+                });
+                // 直接展示结果并等待点击
+                finishAllRevealed();
+            }
+
+            // ===== 事件绑定 =====
+            cardStage.addEventListener('click', e => {
+                const card = e.target.closest('.card');
+                if (!card) return;
+                const idx = parseInt(card.getAttribute('data-index'));
+
+                if (currentState === State.STACKED) {
+                    if (idx !== topCardIndex || cards[idx].revealed) return;
+                    moveToCenter(idx);
+                } else if (currentState === State.CENTERED) {
+                    if (idx !== centeredIndex) return;
+                    revealCard(idx);
+                } else if (currentState === State.REVEALED) {
+                    if (idx !== topCardIndex || !cards[idx].revealed || cards[idx].flown) return;
+                    flyOutCard(idx);
+                }
+            });
+
+            btnSingle.addEventListener('click', () => startDraw(false));
+            btnMulti.addEventListener('click', () => startDraw(true));
+
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && currentState !== State.IDLE && currentState !== State.CLOSING) {
+                    if (currentState === State.STACKED || currentState === State.CENTERED ||
+                        currentState === State.REVEALED || currentState === State.RISING) {
+                        performSkip();
+                    } else if (currentState === State.ALL_REVEALED) {
+                        closeOverlay();
+                    }
+                }
+                if (e.key === ' ') {
+                    e.preventDefault();
+                    if (currentState === State.STACKED && topCardIndex >= 0) {
+                        moveToCenter(topCardIndex);
+                    } else if (currentState === State.CENTERED && centeredIndex >= 0) {
+                        revealCard(centeredIndex);
+                    } else if (currentState === State.REVEALED && topCardIndex >= 0) {
+                        flyOutCard(topCardIndex);
+                    } else if (currentState === State.ALL_REVEALED) {
+                        closeOverlay();
+                    }
+                }
+            });
+
+            console.log('✦ 长汀一中动漫节 · 五连抽 (5星概率0.8%)');
+            console.log('✦ 结果展示后点击屏幕任意位置回到主界面');
+        })();
+    </script>
 </body>
 </html>
